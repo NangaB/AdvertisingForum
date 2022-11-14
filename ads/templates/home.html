@@ -1,8 +1,15 @@
 <h1>Hello word</h1>
 {% if user.is_authenticated %}
     <p>You are logged in as {{user}}</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'ads:logout' %}">Logout</a>
 {% else %}
-    <a href="{% url 'register' %}">Register</a>
-    <a href="{% url 'log' %}">Log in</a>
+    <a href="{% url 'ads:register' %}">Register</a>
+    <a href="{% url 'ads:log' %}">Log in</a>
 {% endif %}
+
+{% for ad in ads %}
+    <a href="{% url 'ads:detail' ad.id %}">
+        <h1>{{ad.company}}</h1>
+    </a>
+    <p>{{ad.desc}}</p>
+{% endfor %}
