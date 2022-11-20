@@ -35,6 +35,18 @@
             </li>
             <li>
               <a class="nav-link" href="{% url 'ads:my' %}">My ads</a>
+            </li> 
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Industries
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a href="{% url 'ads:display_industry' 'nr' %}">Real estate</a>
+                <a href="{% url 'ads:display_industry' 'zd' %}">Health</a>
+                <a href="{% url 'ads:display_industry' 'mt' %}">Cars</a>
+                <a href="{% url 'ads:display_industry' 'ft' %}">Fitness</a>
+              </div>
             </li>
 
             {% if user.is_authenticated %}
@@ -47,6 +59,12 @@
             </li>
             {% endif %}
           </ul>
+          <form action = "{% url 'ads:search' %}" class="d-flex" method="POST">
+            <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+            {% csrf_token %}
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+
 
         </div>
       </nav>

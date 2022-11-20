@@ -101,19 +101,19 @@ def deleteAd(request, adId):
     ad.delete()
     return redirect('ads:my')
 
-# def search(request):
-#     keyWords = request.POST.get('search').split(' ')
-#     for word in keyWords:
-#         querySet = Advertisement.objects.filter(Q(company__icontains=word) | Q(desc__icontains=word))
-#     try:
-#         ads = ads | querySet
-#     except:
-#         ads = querySet
-#     return render(request, 'home.html', {'ads' : ads})
+def search(request):
+    keyWords = request.POST.get('search').split(' ')
+    for word in keyWords:
+        querySet = Advertisement.objects.filter(Q(company__icontains=word) | Q(desc__icontains=word))
+    try:
+        ads = ads | querySet
+    except:
+        ads = querySet
+    return render(request, 'home.html', {'ads' : ads})
 
-# def displayIndustry(request, industryKey):
-#     ads = Advertisement.objects.filter(industry = industryKey)
-#     return render(request, 'home.html', {'ads' : ads})
+def displayIndustry(request, industryKey):
+    ads = Advertisement.objects.filter(industry = industryKey)
+    return render(request, 'home.html', {'ads' : ads})
 
 # @login_required
 # def likes(request,adId):
