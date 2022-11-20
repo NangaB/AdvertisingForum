@@ -1,10 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Hello word</h1>
 {% if user.is_authenticated %}
     <p>You are logged in as {{user}}</p>
     <a href="{% url 'ads:logout' %}">Logout</a>
 {% else %}
     <a href="{% url 'ads:register' %}">Register</a>
-    <a href="{% url 'ads:log' %}">Log innnn</a>
+    <a href="{% url 'ads:log' %}">Log in</a>
 {% endif %}
 
 {% for ad in ads %}
@@ -13,3 +15,4 @@
     </a>
     <p>{{ad.desc}}</p>
 {% endfor %}
+{% endblock content%}

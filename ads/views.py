@@ -75,31 +75,31 @@ def detail(request, adId):
     #     ad.is_liked = False
     return render(request, 'detail.html', {'ad' : ad})
 
+@login_required
+def my(request):
+    ads = Advertisement.objects.filter(user=request.user)
+    return render(request, 'my.html', {'ads' : ads})
 
-# def my(request):
-#     ads = Advertisement.objects.filter(user=request.user)
-#     return render(request, 'my.html', {'ads' : ads})
+@login_required
+def edit(request, adId):
+    ad = get_object_or_404(Advertisement, pk=adId, user = request.user)
+    if request.method == "GET":
+        form = AdForm(instance = ad)
+        return render(request, 'edit.html', {'form' : form, 'ad' : ad})
+    else:
+        form = AdForm(request.POST, instance = ad)
+        if form.is_valid():
+            form.save()
+            return redirect('ads:my')
+        else:
+            error = 'Something went wrong'
+            return render(request, 'edit.html', {'form':form, 'ad' : ad, 'error' : error})
 
-# @login_required
-# def edit(request, adId):
-#     ad = get_object_or_404(Advertisement, pk=adId, user = request.user)
-#     if request.method == "GET":
-#         form = AdForm(instance = ad)
-#         return render(request, 'edit.html', {'form' : form, 'ad' : ad})
-#     else:
-#         form = AdForm(request.POST, instance = ad)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('ads:my')
-#         else:
-#             error = 'Something went wrong'
-#             return render(request, 'edit.html', {'form':form, 'ad' : ad, 'error' : error})
-
-# @login_required
-# def deleteAd(request, adId):
-#     ad = get_object_or_404(Advertisement, pk=adId, user = request.user)
-#     ad.delete()
-#     return redirect('ads:my')
+@login_required
+def deleteAd(request, adId):
+    ad = get_object_or_404(Advertisement, pk=adId, user = request.user)
+    ad.delete()
+    return redirect('ads:my')
 
 # def search(request):
 #     keyWords = request.POST.get('search').split(' ')
