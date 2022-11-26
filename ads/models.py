@@ -16,3 +16,12 @@ class Advertisement(models.Model):
     ]
     industry = models.CharField(max_length=2,choices=industries, default='')
     user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='ads')
+
+    def __str__(self):
+        return self.company
+
+    def display_industry(self):
+        for industry in self.industries:
+            if self.industry in industry:
+                to_Display = industry[1]
+        return to_Display

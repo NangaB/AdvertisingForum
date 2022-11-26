@@ -103,6 +103,7 @@ def deleteAd(request, adId):
 
 def search(request):
     keyWords = request.POST.get('search').split(' ')
+    print(keyWords)
     for word in keyWords:
         querySet = Advertisement.objects.filter(Q(company__icontains=word) | Q(desc__icontains=word))
     try:
