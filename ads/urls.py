@@ -15,5 +15,5 @@ urlpatterns = [
     path('delete/<int:adId>', views.deleteAd, name = 'delete'),
     path('search', views.search, name = 'search'),
     path('industry/<str:industryKey>', views.displayIndustry, name = 'display_industry'),
-    # path('like/<int:adId>', views.likes, name = 'like')
+    path('like/<int:adId>', views.likes, name = 'like')
 ]

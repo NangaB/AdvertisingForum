@@ -8,7 +8,17 @@
                 <p class="small-info">
                     <ion-icon name="location-outline"></ion-icon>{{ad.address}}
                 </p class="small-info">
-                <p><ion-icon name="thumbs-up"></ion-icon></p>
+                <p class="small-info">
+                {% if ad.is_liked %}
+                    <a href="{% url 'ads:like' ad.id %}">
+                        <ion-icon name="thumbs-up"></ion-icon>{{ad.total_likes}}
+                    </a>
+                    {% else %}
+                    <a href="{% url 'ads:like' ad.id %}">
+                        <ion-icon name="thumbs-up-outline"></ion-icon>{{ad.total_likes}}
+                    </a>
+                    {% endif %}
+                </p class="small-info">
             </div>
             <div class="info-data">
                 <p class="small-info">

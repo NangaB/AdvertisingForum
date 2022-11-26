@@ -1,6 +1,6 @@
-
-
-<div class="row">
+{% extends 'base.html' %}
+{% block content %}
+<div class="row thin">
     <h2 class="form-title">Create Advertisement</h2>
     {% if error %}
     <div class="alert alert-danger" role="alert">
@@ -56,5 +56,6 @@
         <button class="btn-full" type="submit">Create</button>
     </form>
 </div>
+{% endblock content %}
 
 

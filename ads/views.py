@@ -12,6 +12,11 @@ from django.db.models import Q
 
 def home(request):
     ads = Advertisement.objects.all()
+    for ad in ads:
+        if ad.likes.filter(id=request.user.id).exists():
+            ad.is_liked = True
+        else:
+            ad.is_liked = False
     return render(request, 'home.html', {'ads': ads})
 
 
@@ -69,15 +74,20 @@ def create(request):
 
 def detail(request, adId):
     ad = get_object_or_404(Advertisement, pk=adId)
-    # if ad.likes.filter(id=request.user.id).exists():
-    #     ad.is_liked = True
-    # else:
-    #     ad.is_liked = False
+    if ad.likes.filter(id=request.user.id).exists():
+        ad.is_liked = True
+    else:
+        ad.is_liked = False
     return render(request, 'detail.html', {'ad' : ad})
 
 @login_required
 def my(request):
     ads = Advertisement.objects.filter(user=request.user)
+    for ad in ads:
+        if ad.likes.filter(id=request.user.id).exists():
+            ad.is_liked = True
+        else:
+            ad.is_liked = False
     return render(request, 'my.html', {'ads' : ads})
 
 @login_required
@@ -110,17 +120,28 @@ def search(request):
         ads = ads | querySet
     except:
         ads = querySet
+
+    for ad in ads:
+        if ad.likes.filter(id=request.user.id).exists():
+            ad.is_liked = True
+        else:
+            ad.is_liked = False
     return render(request, 'home.html', {'ads' : ads})
 
 def displayIndustry(request, industryKey):
     ads = Advertisement.objects.filter(industry = industryKey)
+    for ad in ads:
+        if ad.likes.filter(id=request.user.id).exists():
+            ad.is_liked = True
+        else:
+            ad.is_liked = False
     return render(request, 'home.html', {'ads' : ads})
 
-# @login_required
-# def likes(request,adId):
-#     ad = get_object_or_404(Advertisement, pk = adId)
-#     if ad.likes.filter(id=request.user.id).exists():
-#         ad.likes.remove(request.user)
-#     else:
-#         ad.likes.add(request.user)
-#     return redirect('ads:detail', adId = ad.id)
+@login_required
+def likes(request,adId):
+    ad = get_object_or_404(Advertisement, pk = adId)
+    if ad.likes.filter(id=request.user.id).exists():
+        ad.likes.remove(request.user)
+    else:
+        ad.likes.add(request.user)
+    return redirect('ads:detail', adId = ad.id)
