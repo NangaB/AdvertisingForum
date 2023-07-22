@@ -50,12 +50,17 @@ class RetriveEditDelete(APIView):
         ad.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    class DisplayIndustry(APIView):
-        def get(self, request, pk):
-            try:
-                ads = Advertisement.objects.filter(industry=industryKey)
-            except ads.doesNotExist:
-                raise Http404
-            else:
+class DisplayIndustry(APIView):
+    def get(self, request, pk):
+        try:
+            ads = Advertisement.objects.filter(industry=pk)
+            if ads.count() != 0:
                 serializer = AdSerializer(instance=ads, many=True)
                 return Response(data=serializer.data)
+            else:
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        except ads.doesNotExist:
+            raise Http404
+        else:
+            serializer = AdSerializer(instance=ads, many=True)
+            return Response(data=serializer.data)
