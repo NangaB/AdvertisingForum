@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from ads.models import Advertisement
-from .serializer import AdSerializer
+from .serializer import AdSerializer, UserSerializer
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework import status
 from django.http.response import Http404
+
 
 class ListCreateAds(APIView):
     def get(self, request):
@@ -64,3 +65,20 @@ class DisplayIndustry(APIView):
         else:
             serializer = AdSerializer(instance=ads, many=True)
             return Response(data=serializer.data)
+        
+class ListCreateUser(APIView):
+    def get(self, request):
+        if request.user.is_staff:
+            users = User.objects.all()
+            serializer = UserSerializer(instance=users, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'response' : "You do not have permission to get this data"})
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.create(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
