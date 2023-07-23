@@ -8,5 +8,7 @@ urlpatterns = [
     path('display-industry/<str:pk>', views.DisplayIndustry.as_view()),
     path('users/', views.ListCreateUser.as_view()),
     path('get-token/', obtain_auth_token),
-    path('create-user/', views.CreateUser.as_view())
+    path('create-user/', views.CreateUser.as_view()),
+    path('my-ads/', views.ListMyAds.as_view()),
+    path('like/<int:pk>', views.Like.as_view())
 ]
