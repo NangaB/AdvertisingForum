@@ -8,4 +8,5 @@ urlpatterns = [
     path('display-industry/<str:pk>', views.DisplayIndustry.as_view()),
     path('users/', views.ListCreateUser.as_view()),
     path('get-token/', obtain_auth_token),
+    path('create-user/', views.CreateUser.as_view())
 ]

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework import status
 from django.http.response import Http404
+from rest_framework.permissions import AllowAny
 
 
 class ListCreateAds(APIView):
@@ -75,6 +76,17 @@ class ListCreateUser(APIView):
         else:
             return Response({'response' : "You do not have permission to get this data"})
 
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.create(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class CreateUser(APIView):
+
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
